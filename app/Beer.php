@@ -10,6 +10,5 @@ class Beer extends Model
         "name",
         "brand",
         "price"
-
     ];
 }
