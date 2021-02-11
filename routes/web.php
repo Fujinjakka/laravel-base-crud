@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::resource('beers', 'BeerController');
+
+// Route::get("beers", "BeerController@index")->name("books.index");
+// Route::get("beers/{beer}", "BeerController@show")->name("books.show");

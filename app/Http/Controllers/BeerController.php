@@ -26,7 +26,7 @@ class BeerController extends Controller
      */
     public function create()
     {
-        //
+        return "Vista di create";
     }
 
     /**
@@ -46,9 +46,15 @@ class BeerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    
+     
+    public function show(Beer $beer)
+    // public function show($id)
     {
-        //
+        // $Beer = Beer::find($id);
+        // dd($beer->getAttributes());
+        return view("beers.show", compact("beer"));
+
     }
 
     /**

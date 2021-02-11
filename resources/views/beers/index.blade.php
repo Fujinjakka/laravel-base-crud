@@ -1,44 +1,41 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{{asset("css/app.css")}}">
+@extends('layouts.main')
 
-        <title>Laravel</title>
+@section('header')
+  <h1>Le mie birre</h1>   
+@endsection
 
-        
-    </head>
-    <body>
-      <main class="container">
-        <h1>Le mie birre</h1>
+@section('content')
+  <table class="table table-dark table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ID: </th>
+        <th>NOME: </th>
+        <th>MARCA: </th>
+        <th>PREZZO: </th>
+        <th>CREATO IL: </th>
+        <th>AGGIORNATO IL: </th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($beers as $beer)
+        <tr>
+          <td>{{$beer->id}}</td>
+          <td>{{$beer->name}}</td>
+          <td>{{$beer->brand}}</td>
+          <td>{{$beer->prize}}</td>
+          <td>{{$beer->created_at}}</td>
+          <td>{{$beer->updated_at}}</td>
+          <td>
+            <a href="{{route("beers.show", ["beer" => $beer->id])}}" class="btn btn-outline-light">Mostra dettaglio birra</a>
+          </td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+@endsection
 
-        <table class="table table-dark table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>ID: </th>
-              <th>NOME: </th>
-              <th>MARCA: </th>
-              <th>PREZZO: </th>
-              <th>CREATO IL: </th>
-              <th>AGGIORNATO IL: </th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($beers as $beer)
-              <tr>
-                <td>{{$beer->id}}</td>
-                <td>{{$beer->name}}</td>
-                <td>{{$beer->brand}}</td>
-                <td>{{$beer->prize}}</td>
-                <td>{{$beer->created_at}}</td>
-                <td>{{$beer->updated_at}}</td>
-              </tr>
-                
-            @endforeach
-          </tbody>
-        </table>
-      </main>
-        
-    </body>
-</html>
+@section('footer')
+  <div class="text-right">
+    <a href="{{route("beers.create")}}" class="btn-primary btn-lg">Inserisci una birra</a>
+  </div>
+@endsection
