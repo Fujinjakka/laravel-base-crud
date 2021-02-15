@@ -7,6 +7,11 @@ use App\Beer;
 
 class BeerController extends Controller
 {
+    private $beerValidation = [
+        "name" => "required",
+        "brand" => "required",
+        "price" => "required"
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -40,13 +45,7 @@ class BeerController extends Controller
         $data = $request->all();
         // dd($data);
 
-        $request->validate(
-            [
-                "name" => "required",
-                "brand" => "required",
-                "price" => "required"
-            ]
-        );
+        $request->validate($this->beerValidation);
 
         $beer = new Beer();
         $beer->name = $data["name"];
@@ -55,7 +54,8 @@ class BeerController extends Controller
         $result = $beer->save();
 
         $newBeer = Beer::orderBy("id","DESC")->first();
-        return redirect()->route("beers.index", $newBeer);
+        // return redirect()->route("beers.index", $newBeer);
+        return redirect()->route("beers.index")->with("message", "Birra " . $beer->name .  " creata correttamente!");
     }
 
     /**
@@ -81,9 +81,9 @@ class BeerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Beer $beer)
     {
-        //
+        return view("beers.edit", compact("beer"));
     }
 
     /**
@@ -93,9 +93,16 @@ class BeerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Beer $beer)
     {
-        //
+       // dd($request->all());
+       $data = $request->all();
+
+       $request->validate($this->beerValidation);
+
+       $beer->update($data);
+
+       return redirect()->route("beers.index")->with("message", "Birra " . $beer->name .  " aggiornata correttamente!");
     }
 
     /**
@@ -104,8 +111,10 @@ class BeerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Beer $beer)
     {
-        //
+        $beer->delete();
+
+        return redirect()->route("beers.index")->with("message", "Birra " . $beer->name .  " cancellata correttamente!");
     }
 }
